@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Calculadora de Frete para Móveis: calcule fretes, serviços adicionais e descontos de forma rápida e prática." />
+    <meta name="description" content="Calculadora de Frete para Móveis: calcule o valor do transporte, adicione serviços, aplique descontos e tenha um orçamento na hora." />
     <meta name="theme-color" content="#17324D" />
     <title>Calculadora de Frete para Móveis</title>
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
@@ -14,25 +15,85 @@
   <body>
     <header class="cabecalho">
       <div class="cabecalho__conteudo">
-        <div class="cabecalho__icone" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
-            <path d="M15 18H9" />
-            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
-            <circle cx="17" cy="18" r="2" />
-            <circle cx="7" cy="18" r="2" />
-          </svg>
-        </div>
-        <div>
-          <h1>Calculadora de Frete para Móveis</h1>
-          <p>Calcule fretes, serviços adicionais e descontos de forma rápida e prática.</p>
-        </div>
+        <a class="marca" href="#inicio" aria-label="Calculadora de Frete para Móveis — início">
+          <img class="marca__logo" src="img/logo.svg" alt="" width="48" height="48" />
+          <span class="marca__nome">
+            <span>Calculadora de Frete</span>
+            <span class="marca__complemento">para Móveis</span>
+          </span>
+        </a>
+
+        <nav class="navegacao" aria-label="Navegação principal">
+          <a href="#calculadora">Calculadora</a>
+          <a href="#servicos">Serviços</a>
+          <a href="#resumo">Orçamento</a>
+          <a href="#precos" data-abrir-precos>Preços</a>
+        </nav>
       </div>
     </header>
 
-    <div class="pagina">
+    <section class="destaque" id="inicio" aria-labelledby="titulo-destaque">
+      <div class="destaque__conteudo">
+        <h1 id="titulo-destaque">Seu frete de móveis de forma rápida, simples e confiável.</h1>
+        <p>Calcule o valor do transporte, adicione serviços, aplique descontos e tenha um orçamento na hora.</p>
+        <a class="botao botao--destaque" href="#calculadora" id="botao-calcular">Calcular Frete</a>
+      </div>
+    </section>
 
-      <main class="layout">
+    <div class="pagina">
+      <ul class="beneficios" aria-label="Vantagens">
+        <li class="beneficio">
+          <span class="beneficio__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="2" width="16" height="20" rx="2" />
+              <path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v3M8 18h.01M12 18h.01" />
+            </svg>
+          </span>
+          <span>
+            <strong>Cálculo rápido</strong>
+            <span>O total muda na hora, a cada alteração.</span>
+          </span>
+        </li>
+        <li class="beneficio">
+          <span class="beneficio__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z" />
+            </svg>
+          </span>
+          <span>
+            <strong>Serviços adicionais</strong>
+            <span>Desmontagem, embalagem e montagem.</span>
+          </span>
+        </li>
+        <li class="beneficio">
+          <span class="beneficio__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z" />
+              <path d="m9 15 6-6" />
+              <circle cx="9.5" cy="9.5" r=".5" fill="currentColor" />
+              <circle cx="14.5" cy="14.5" r=".5" fill="currentColor" />
+            </svg>
+          </span>
+          <span>
+            <strong>Descontos</strong>
+            <span>Desconto de pacote aplicado com um clique.</span>
+          </span>
+        </li>
+        <li class="beneficio">
+          <span class="beneficio__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+          </span>
+          <span>
+            <strong>Transporte seguro</strong>
+            <span>Orçamento claro, sem surpresas.</span>
+          </span>
+        </li>
+      </ul>
+
+      <main class="layout" id="calculadora">
         <div class="coluna-principal">
           <section class="secao" aria-labelledby="titulo-valores">
             <h2 id="titulo-valores">Valores do serviço</h2>
@@ -94,7 +155,7 @@
             </div>
           </section>
 
-          <section class="secao" aria-labelledby="titulo-servicos">
+          <section class="secao" id="servicos" aria-labelledby="titulo-servicos">
             <h2 id="titulo-servicos">Serviços adicionais</h2>
             <div class="grade-servicos">
               <label class="servico">
@@ -144,8 +205,8 @@
             </div>
           </section>
 
-          <section class="secao" aria-label="Configuração de preços">
-            <details class="configuracao">
+          <section class="secao" id="precos" aria-label="Configuração de preços">
+            <details class="configuracao" id="configuracao-precos">
               <summary>Configurar preços dos serviços</summary>
               <div class="configuracao__grade">
                 <div class="campo">
@@ -236,7 +297,7 @@
           </section>
         </div>
 
-        <aside class="coluna-lateral">
+        <aside class="coluna-lateral" id="resumo">
           <section class="resumo" aria-labelledby="titulo-resumo" aria-live="polite">
             <h2 id="titulo-resumo">Resumo do frete</h2>
             <ul class="resumo__linhas" id="resumo-linhas"></ul>

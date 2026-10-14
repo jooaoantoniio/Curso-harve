@@ -207,6 +207,21 @@
   botaoCopiar.addEventListener('click', copiarResumo);
   botaoLimpar.addEventListener('click', limpar);
 
+  // "Calcular Frete" leva à calculadora e já posiciona o cursor no primeiro campo.
+  // Sem JavaScript, o link continua levando até #calculadora.
+  document.getElementById('botao-calcular').addEventListener('click', function (evento) {
+    evento.preventDefault();
+    document.getElementById('calculadora').scrollIntoView(); // suave conforme o CSS
+    seletorComodos.focus({ preventScroll: true });
+  });
+
+  // O link "Preços" abre a área de configuração, que começa recolhida.
+  document.querySelectorAll('[data-abrir-precos]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      document.getElementById('configuracao-precos').open = true;
+    });
+  });
+
   preencherConfigPadrao();
   atualizar();
 })();

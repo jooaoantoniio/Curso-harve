@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Versão simplificada da logo para a aba do navegador -->
+  <rect width="64" height="64" rx="14" fill="#17324D"/>
+  <path d="M12 27 32 13l20 14" fill="none" stroke="#F59E0B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="9" y="30" width="29" height="17" rx="3" fill="#FFFFFF"/>
+  <rect x="14" y="34" width="19" height="5" rx="1.5" fill="#17324D"/>
+  <rect x="13" y="38.5" width="21" height="5" rx="1.5" fill="#17324D"/>
+  <path d="M40 34h8a2 2 0 0 1 1.5.7l4 5a2 2 0 0 1 .5 1.3V45a2 2 0 0 1-2 2H40z" fill="#FFFFFF"/>
+  <circle cx="18" cy="49" r="5" fill="#F59E0B" stroke="#17324D" stroke-width="2.5"/>
+  <circle cx="46" cy="49" r="5" fill="#F59E0B" stroke="#17324D" stroke-width="2.5"/>
+</svg>

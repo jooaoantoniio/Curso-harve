@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="titulo-logo">
+  <title id="titulo-logo">Calculadora de Frete para Móveis</title>
+  <!-- Telhado: mudança / casa -->
+  <path d="M8 27 32 9l24 18" fill="none" stroke="#F59E0B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Carroceria -->
+  <rect x="5" y="29" width="35" height="21" rx="3" fill="#17324D"/>
+  <!-- Sofá dentro da carroceria -->
+  <rect x="12" y="33" width="21" height="7" rx="2" fill="#FFFFFF"/>
+  <rect x="10" y="39" width="25" height="6" rx="2" fill="#FFFFFF"/>
+  <rect x="8.5" y="36" width="4" height="9" rx="1.5" fill="#FFFFFF"/>
+  <rect x="32.5" y="36" width="4" height="9" rx="1.5" fill="#FFFFFF"/>
+  <!-- Cabine -->
+  <path d="M42 34h9.5a2 2 0 0 1 1.5.7l5.5 6.6a2 2 0 0 1 .5 1.3V48a2 2 0 0 1-2 2H42z" fill="#17324D"/>
+  <path d="M45 37h6l3.6 4.4H45z" fill="#F59E0B"/>
+  <!-- Rodas -->
+  <circle cx="16" cy="52" r="6" fill="#17324D" stroke="#FFFFFF" stroke-width="2.5"/>
+  <circle cx="16" cy="52" r="2" fill="#FFFFFF"/>
+  <circle cx="49" cy="52" r="6" fill="#17324D" stroke="#FFFFFF" stroke-width="2.5"/>
+  <circle cx="49" cy="52" r="2" fill="#FFFFFF"/>
+</svg>
