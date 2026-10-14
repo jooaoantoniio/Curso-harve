@@ -7,6 +7,7 @@ const PRECOS_PADRAO = {
   embalagem: 30,
   montagem: 60,
   taxaFimDeSemana: 0.15, // fração decimal: 0.15 = 15%
+  precoPorKm: 5, // valor cobrado a cada 1 km de distância
   // Preço por quantidade de cômodos: posição 0 = 1 cômodo, ..., última = "5 ou mais".
   comodos: [450, 700, 980, 1300, 1650],
 };
@@ -31,23 +32,29 @@ function formatarPercentual(fracao) {
   return arredondar(fracao * 100).toLocaleString('pt-BR') + '%';
 }
 
+function formatarKm(km) {
+  return arredondar(km).toLocaleString('pt-BR') + ' km';
+}
+
 /**
- * entradas: { valorBase, comodos, distancia, extras, valorDescontoPacote, servicos }
+ * entradas: { valorBase, comodos, distanciaKm, valorDescontoPacote, servicos }
  *           comodos é a quantidade de cômodos (0 = nenhum)
  * servicos: { desmontagem, embalagem, montagem, fimDeSemana, descontoPacote } (booleanos)
- * precos:   { desmontagem, embalagem, montagem, taxaFimDeSemana, comodos }
+ * precos:   { desmontagem, embalagem, montagem, taxaFimDeSemana, precoPorKm, comodos }
  */
 function calcularFrete(entradas, precos) {
   const servicos = entradas.servicos;
   const quantidadeComodos = entradas.comodos || 0;
+  const distanciaKm = entradas.distanciaKm || 0;
 
   const comodos = precoComodos(quantidadeComodos, precos.comodos);
+  const distancia = arredondar(distanciaKm * precos.precoPorKm);
   const desmontagem = servicos.desmontagem ? precos.desmontagem : 0;
   const embalagem = servicos.embalagem ? precos.embalagem : 0;
   const montagem = servicos.montagem ? precos.montagem : 0;
 
   const subtotal = arredondar(
-    entradas.valorBase + comodos + entradas.distancia + entradas.extras + desmontagem + embalagem + montagem,
+    entradas.valorBase + comodos + distancia + desmontagem + embalagem + montagem,
   );
 
   const taxaFimDeSemana = servicos.fimDeSemana ? arredondar(subtotal * precos.taxaFimDeSemana) : 0;
@@ -69,8 +76,12 @@ function calcularFrete(entradas, precos) {
       valor: comodos,
       tipo: 'acrescimo',
     },
-    { id: 'distancia', rotulo: 'Distância', valor: entradas.distancia, tipo: 'acrescimo' },
-    { id: 'extras', rotulo: 'Extras', valor: entradas.extras, tipo: 'acrescimo' },
+    {
+      id: 'distancia',
+      rotulo: distanciaKm > 0 ? 'Distância (' + formatarKm(distanciaKm) + ')' : 'Distância',
+      valor: distancia,
+      tipo: 'acrescimo',
+    },
     { id: 'desmontagem', rotulo: 'Desmontagem', valor: desmontagem, tipo: 'acrescimo' },
     { id: 'embalagem', rotulo: 'Embalagem', valor: embalagem, tipo: 'acrescimo' },
     { id: 'montagem', rotulo: 'Montagem', valor: montagem, tipo: 'acrescimo' },
@@ -99,6 +110,7 @@ if (typeof module === 'object' && module.exports) {
     PRECOS_PADRAO,
     arredondar,
     formatarPercentual,
+    formatarKm,
     precoComodos,
     descreverComodos,
     calcularFrete,

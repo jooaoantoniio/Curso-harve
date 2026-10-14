@@ -4,6 +4,8 @@
   const camposConfig = document.querySelectorAll('[data-config]');
   const checkboxes = document.querySelectorAll('[data-servico]');
   const seletorComodos = document.getElementById('comodos');
+  const campoDesconto = document.getElementById('campo-desconto');
+  const inputDesconto = document.getElementById('valorDescontoPacote');
 
   const listaLinhas = document.getElementById('resumo-linhas');
   const listaAvisos = document.getElementById('resumo-avisos');
@@ -31,16 +33,17 @@
   // Lê um grupo de inputs; valores inválidos contam como zero.
   function lerGrupo(inputs, atributo) {
     const valores = {};
-    let temErro = false;
+    const invalidos = [];
 
     inputs.forEach(function (input) {
+      const nome = input.dataset[atributo];
       const leitura = lerValorBRL(input.value);
       exibirErro(input, leitura.erro);
-      valores[input.dataset[atributo]] = leitura.valor === null ? 0 : leitura.valor;
-      if (leitura.erro) temErro = true;
+      valores[nome] = leitura.valor === null ? 0 : leitura.valor;
+      if (leitura.erro) invalidos.push(nome);
     });
 
-    return { valores, temErro };
+    return { valores, invalidos };
   }
 
   function lerServicos() {
@@ -53,14 +56,23 @@
     return servicos;
   }
 
-  function atualizarDetalhes(precos, valorDesconto) {
+  function atualizarDetalhes(precos, entradas) {
+    const precoKm = formatarBRL(precos.precoPorKm);
+    const custoDistancia = arredondar(entradas.distanciaKm * precos.precoPorKm);
+    document.getElementById('dica-distancia').textContent =
+      entradas.distanciaKm > 0
+        ? formatarKm(entradas.distanciaKm) + ' × ' + precoKm + ' = ' + formatarBRL(custoDistancia)
+        : 'Cada 1 km custa ' + precoKm + '.';
+
     document.getElementById('detalhe-desmontagem').textContent = '+ ' + formatarBRL(precos.desmontagem);
     document.getElementById('detalhe-embalagem').textContent = '+ ' + formatarBRL(precos.embalagem);
     document.getElementById('detalhe-montagem').textContent = '+ ' + formatarBRL(precos.montagem);
     document.getElementById('detalhe-fimDeSemana').textContent =
       '+ ' + formatarPercentual(precos.taxaFimDeSemana) + ' sobre o subtotal';
     document.getElementById('detalhe-descontoPacote').textContent =
-      '− ' + formatarBRL(valorDesconto) + ' do total';
+      entradas.servicos.descontoPacote
+        ? '− ' + formatarBRL(entradas.valorDescontoPacote) + ' do total'
+        : 'Informe o valor ao marcar';
   }
 
   // Mostra o preço de cada faixa nas opções do seletor de cômodos.
@@ -113,6 +125,7 @@
       embalagem: config.valores.embalagem,
       montagem: config.valores.montagem,
       taxaFimDeSemana: config.valores.taxaFimDeSemana / 100, // digitado em %
+      precoPorKm: config.valores.precoPorKm,
       comodos: [
         config.valores.comodos1,
         config.valores.comodos2,
@@ -125,23 +138,29 @@
     const entradas = {
       valorBase: campos.valores.valorBase,
       comodos: Number(seletorComodos.value),
-      distancia: campos.valores.distancia,
-      extras: campos.valores.extras,
+      distanciaKm: campos.valores.distanciaKm,
       valorDescontoPacote: campos.valores.valorDescontoPacote,
       servicos: lerServicos(),
     };
 
     const resultado = calcularFrete(entradas, precos);
 
+    // O campo de desconto só aparece (e só é validado) com o desconto marcado.
+    const descontoMarcado = entradas.servicos.descontoPacote;
+    campoDesconto.hidden = !descontoMarcado;
+    const camposComErro = campos.invalidos.filter(function (campo) {
+      return campo !== 'valorDescontoPacote' || descontoMarcado;
+    });
+
     const avisos = [];
-    if (campos.temErro || config.temErro) {
+    if (camposComErro.length > 0 || config.invalidos.length > 0) {
       avisos.push('Há valores inválidos destacados. Eles são contados como zero até serem corrigidos.');
     }
     if (resultado.descontoExcedeuValor) {
       avisos.push('O desconto de pacote é maior que o valor do frete. O total foi ajustado para zero.');
     }
 
-    atualizarDetalhes(precos, entradas.valorDescontoPacote);
+    atualizarDetalhes(precos, entradas);
     atualizarOpcoesComodos(precos.comodos);
     renderizarResumo(resultado, avisos);
     ultimoResultado = resultado;
@@ -157,6 +176,7 @@
     document.getElementById('cfg-embalagem').value = paraTexto(PRECOS_PADRAO.embalagem);
     document.getElementById('cfg-montagem').value = paraTexto(PRECOS_PADRAO.montagem);
     document.getElementById('cfg-taxaFimDeSemana').value = paraTexto(PRECOS_PADRAO.taxaFimDeSemana * 100);
+    document.getElementById('cfg-precoPorKm').value = paraTexto(PRECOS_PADRAO.precoPorKm);
     PRECOS_PADRAO.comodos.forEach(function (preco, indice) {
       document.getElementById('cfg-comodos' + (indice + 1)).value = paraTexto(preco);
     });
@@ -204,6 +224,11 @@
     checkbox.addEventListener('change', atualizar);
   });
   seletorComodos.addEventListener('change', atualizar);
+
+  // Ao marcar o desconto, o campo do valor aparece e já recebe o cursor.
+  document.querySelector('[data-servico="descontoPacote"]').addEventListener('change', function (evento) {
+    if (evento.target.checked) inputDesconto.focus();
+  });
   botaoCopiar.addEventListener('click', copiarResumo);
   botaoLimpar.addEventListener('click', limpar);
 

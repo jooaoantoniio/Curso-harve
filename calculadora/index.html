@@ -124,33 +124,13 @@
               </div>
 
               <div class="campo">
-                <label for="distancia">Distância (R$)</label>
+                <label for="distanciaKm">Distância (km)</label>
                 <div class="campo__entrada">
-                  <span class="campo__prefixo" aria-hidden="true">R$</span>
-                  <input id="distancia" data-campo="distancia" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-distancia" />
+                  <span class="campo__prefixo" aria-hidden="true">km</span>
+                  <input id="distanciaKm" data-campo="distanciaKm" type="text" inputmode="decimal" autocomplete="off" placeholder="0" aria-describedby="dica-distancia erro-distanciaKm" />
                 </div>
-                <p class="campo__dica">Custo do deslocamento.</p>
-                <p class="campo__erro" id="erro-distancia" hidden></p>
-              </div>
-
-              <div class="campo">
-                <label for="extras">Extras (R$)</label>
-                <div class="campo__entrada">
-                  <span class="campo__prefixo" aria-hidden="true">R$</span>
-                  <input id="extras" data-campo="extras" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-extras" />
-                </div>
-                <p class="campo__dica">Ajustes manuais. Desmontagem e embalagem entram pelos serviços abaixo.</p>
-                <p class="campo__erro" id="erro-extras" hidden></p>
-              </div>
-
-              <div class="campo">
-                <label for="valorDescontoPacote">Desconto de pacote (R$)</label>
-                <div class="campo__entrada">
-                  <span class="campo__prefixo" aria-hidden="true">R$</span>
-                  <input id="valorDescontoPacote" data-campo="valorDescontoPacote" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-valorDescontoPacote" />
-                </div>
-                <p class="campo__dica">Só é aplicado se marcado em Serviços adicionais.</p>
-                <p class="campo__erro" id="erro-valorDescontoPacote" hidden></p>
+                <p class="campo__dica" id="dica-distancia"></p>
+                <p class="campo__erro" id="erro-distanciaKm" hidden></p>
               </div>
             </div>
           </section>
@@ -203,6 +183,17 @@
                 </span>
               </label>
             </div>
+
+            <!-- Aparece quando "Aplicar desconto de pacote" está marcado -->
+            <div class="campo campo--desconto" id="campo-desconto" hidden>
+              <label for="valorDescontoPacote">Valor do desconto de pacote (R$)</label>
+              <div class="campo__entrada">
+                <span class="campo__prefixo" aria-hidden="true">R$</span>
+                <input id="valorDescontoPacote" data-campo="valorDescontoPacote" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-valorDescontoPacote" />
+              </div>
+              <p class="campo__dica">Valor subtraído do total do frete.</p>
+              <p class="campo__erro" id="erro-valorDescontoPacote" hidden></p>
+            </div>
           </section>
 
           <section class="secao" id="precos" aria-label="Configuração de preços">
@@ -243,6 +234,15 @@
                     <input id="cfg-taxaFimDeSemana" data-config="taxaFimDeSemana" type="text" inputmode="decimal" autocomplete="off" placeholder="0" aria-describedby="erro-cfg-taxaFimDeSemana" />
                   </div>
                   <p class="campo__erro" id="erro-cfg-taxaFimDeSemana" hidden></p>
+                </div>
+
+                <div class="campo">
+                  <label for="cfg-precoPorKm">Preço por km (R$)</label>
+                  <div class="campo__entrada">
+                    <span class="campo__prefixo" aria-hidden="true">R$</span>
+                    <input id="cfg-precoPorKm" data-config="precoPorKm" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-cfg-precoPorKm" />
+                  </div>
+                  <p class="campo__erro" id="erro-cfg-precoPorKm" hidden></p>
                 </div>
               </div>
 

@@ -15,8 +15,7 @@ const SEM_SERVICOS = {
 function entradas(parcial = {}, servicos = {}) {
   return {
     valorBase: 0,
-    distancia: 0,
-    extras: 0,
+    distanciaKm: 0,
     valorDescontoPacote: 0,
     ...parcial,
     servicos: { ...SEM_SERVICOS, ...servicos },
@@ -24,9 +23,9 @@ function entradas(parcial = {}, servicos = {}) {
 }
 
 describe('calcularFrete', () => {
-  it('reproduz o exemplo do resumo: 150 + 30 + desmontagem 20 + montagem 60 = 260', () => {
+  it('reproduz o exemplo do resumo: 150 + 6 km (30) + desmontagem 20 + montagem 60 = 260', () => {
     const r = calcularFrete(
-      entradas({ valorBase: 150, distancia: 30 }, { desmontagem: true, montagem: true }),
+      entradas({ valorBase: 150, distanciaKm: 6 }, { desmontagem: true, montagem: true }),
       PRECOS_PADRAO,
     );
     assert.equal(r.total, 260);
@@ -40,14 +39,14 @@ describe('calcularFrete', () => {
 
   it('soma desmontagem e embalagem pelos preços configurados, sem duplicar', () => {
     const r = calcularFrete(
-      entradas({ valorBase: 100, extras: 5 }, { desmontagem: true, embalagem: true }),
+      entradas({ valorBase: 100 }, { desmontagem: true, embalagem: true }),
       PRECOS_PADRAO,
     );
-    assert.equal(r.total, 155);
+    assert.equal(r.total, 150);
   });
 
   it('não adiciona custos opcionais quando nenhum serviço está marcado', () => {
-    const r = calcularFrete(entradas({ valorBase: 120, distancia: 30, extras: 10 }), PRECOS_PADRAO);
+    const r = calcularFrete(entradas({ valorBase: 120, distanciaKm: 8 }), PRECOS_PADRAO);
     assert.equal(r.total, 160);
     assert.equal(r.taxaFimDeSemana, 0);
     assert.equal(r.desconto, 0);
@@ -90,7 +89,47 @@ describe('calcularFrete', () => {
   });
 
   it('mantém centavos corretos com valores decimais', () => {
-    assert.equal(calcularFrete(entradas({ valorBase: 0.1, distancia: 0.2 }), PRECOS_PADRAO).total, 0.3);
+    assert.equal(calcularFrete(entradas({ valorBase: 0.1, distanciaKm: 0.04 }), PRECOS_PADRAO).total, 0.3);
+  });
+});
+
+describe('distância por km', () => {
+  it('cobra R$ 5,00 a cada 1 km', () => {
+    assert.equal(calcularFrete(entradas({ distanciaKm: 1 }), PRECOS_PADRAO).total, 5);
+    assert.equal(calcularFrete(entradas({ distanciaKm: 12 }), PRECOS_PADRAO).total, 60);
+  });
+
+  it('aceita km com casas decimais', () => {
+    assert.equal(calcularFrete(entradas({ distanciaKm: 12.5 }), PRECOS_PADRAO).total, 62.5);
+  });
+
+  it('não cobra distância quando é zero', () => {
+    assert.equal(calcularFrete(entradas({ valorBase: 100 }), PRECOS_PADRAO).total, 100);
+  });
+
+  it('mostra os km no resumo', () => {
+    const linha = (km) =>
+      calcularFrete(entradas({ distanciaKm: km }), PRECOS_PADRAO).linhas.find((l) => l.id === 'distancia');
+    assert.equal(linha(0).rotulo, 'Distância');
+    assert.equal(linha(12).rotulo, 'Distância (12 km)');
+    assert.equal(linha(12.5).rotulo, 'Distância (12,5 km)');
+    assert.equal(linha(12).valor, 60);
+  });
+
+  it('entra no subtotal e recebe a taxa de fim de semana', () => {
+    // 2 cômodos (700) + 20 km (100) = 800; taxa 15% = 120; total = 920
+    const r = calcularFrete(entradas({ comodos: 2, distanciaKm: 20 }, { fimDeSemana: true }), PRECOS_PADRAO);
+    assert.equal(r.total, 920);
+  });
+
+  it('usa o preço por km configurável', () => {
+    const precos = { ...PRECOS_PADRAO, precoPorKm: 7.5 };
+    assert.equal(calcularFrete(entradas({ distanciaKm: 10 }), precos).total, 75);
+  });
+
+  it('não existe mais linha de extras no resumo', () => {
+    const ids = calcularFrete(entradas(), PRECOS_PADRAO).linhas.map((l) => l.id);
+    assert.equal(ids.includes('extras'), false);
   });
 });
 

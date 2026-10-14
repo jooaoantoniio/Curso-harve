@@ -393,6 +393,12 @@ p {
   grid-column: 1 / -1;
 }
 
+/* Valor do desconto, logo abaixo dos cards de serviços */
+.campo--desconto {
+  margin-top: 1rem;
+  max-width: 360px;
+}
+
 .campo--invalido .campo__entrada {
   border-color: var(--erro);
 }
