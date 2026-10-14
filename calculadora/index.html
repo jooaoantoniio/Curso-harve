@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Calculadora de Frete para Móveis: calcule fretes, serviços adicionais e descontos de forma rápida e prática." />
+    <meta name="theme-color" content="#17324D" />
+    <title>Calculadora de Frete para Móveis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <header class="cabecalho">
+      <div class="cabecalho__conteudo">
+        <div class="cabecalho__icone" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
+            <path d="M15 18H9" />
+            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
+            <circle cx="17" cy="18" r="2" />
+            <circle cx="7" cy="18" r="2" />
+          </svg>
+        </div>
+        <div>
+          <h1>Calculadora de Frete para Móveis</h1>
+          <p>Calcule fretes, serviços adicionais e descontos de forma rápida e prática.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="pagina">
+
+      <main class="layout">
+        <div class="coluna-principal">
+          <section class="secao" aria-labelledby="titulo-valores">
+            <h2 id="titulo-valores">Valores do serviço</h2>
+            <div class="grade-campos">
+              <div class="campo campo--largo">
+                <label for="comodos">Cômodos</label>
+                <div class="campo__entrada">
+                  <select id="comodos">
+                    <option value="0">Nenhum</option>
+                    <option value="1">1 cômodo</option>
+                    <option value="2">2 cômodos</option>
+                    <option value="3">3 cômodos</option>
+                    <option value="4">4 cômodos</option>
+                    <option value="5">5 ou mais cômodos</option>
+                  </select>
+                </div>
+                <p class="campo__dica">O preço da faixa escolhida é somado ao frete.</p>
+              </div>
+
+              <div class="campo">
+                <label for="valorBase">Valor-base (R$)</label>
+                <div class="campo__entrada">
+                  <span class="campo__prefixo" aria-hidden="true">R$</span>
+                  <input id="valorBase" data-campo="valorBase" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-valorBase" />
+                </div>
+                <p class="campo__dica">Valor inicial do serviço.</p>
+                <p class="campo__erro" id="erro-valorBase" hidden></p>
+              </div>
+
+              <div class="campo">
+                <label for="distancia">Distância (R$)</label>
+                <div class="campo__entrada">
+                  <span class="campo__prefixo" aria-hidden="true">R$</span>
+                  <input id="distancia" data-campo="distancia" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-distancia" />
+                </div>
+                <p class="campo__dica">Custo do deslocamento.</p>
+                <p class="campo__erro" id="erro-distancia" hidden></p>
+              </div>
+
+              <div class="campo">
+                <label for="extras">Extras (R$)</label>
+                <div class="campo__entrada">
+                  <span class="campo__prefixo" aria-hidden="true">R$</span>
+                  <input id="extras" data-campo="extras" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-extras" />
+                </div>
+                <p class="campo__dica">Ajustes manuais. Desmontagem e embalagem entram pelos serviços abaixo.</p>
+                <p class="campo__erro" id="erro-extras" hidden></p>
+              </div>
+
+              <div class="campo">
+                <label for="valorDescontoPacote">Desconto de pacote (R$)</label>
+                <div class="campo__entrada">
+                  <span class="campo__prefixo" aria-hidden="true">R$</span>
+                  <input id="valorDescontoPacote" data-campo="valorDescontoPacote" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-valorDescontoPacote" />
+                </div>
+                <p class="campo__dica">Só é aplicado se marcado em Serviços adicionais.</p>
+                <p class="campo__erro" id="erro-valorDescontoPacote" hidden></p>
+              </div>
+            </div>
+          </section>
+
+          <section class="secao" aria-labelledby="titulo-servicos">
+            <h2 id="titulo-servicos">Serviços adicionais</h2>
+            <div class="grade-servicos">
+              <label class="servico">
+                <input type="checkbox" data-servico="desmontagem" />
+                <span class="servico__caixa" aria-hidden="true"></span>
+                <span class="servico__texto">
+                  <span class="servico__rotulo">Incluir desmontagem</span>
+                  <span class="servico__detalhe" id="detalhe-desmontagem"></span>
+                </span>
+              </label>
+
+              <label class="servico">
+                <input type="checkbox" data-servico="embalagem" />
+                <span class="servico__caixa" aria-hidden="true"></span>
+                <span class="servico__texto">
+                  <span class="servico__rotulo">Incluir embalagem</span>
+                  <span class="servico__detalhe" id="detalhe-embalagem"></span>
+                </span>
+              </label>
+
+              <label class="servico">
+                <input type="checkbox" data-servico="montagem" />
+                <span class="servico__caixa" aria-hidden="true"></span>
+                <span class="servico__texto">
+                  <span class="servico__rotulo">Incluir montagem</span>
+                  <span class="servico__detalhe" id="detalhe-montagem"></span>
+                </span>
+              </label>
+
+              <label class="servico">
+                <input type="checkbox" data-servico="fimDeSemana" />
+                <span class="servico__caixa" aria-hidden="true"></span>
+                <span class="servico__texto">
+                  <span class="servico__rotulo">Aplicar taxa de fim de semana</span>
+                  <span class="servico__detalhe" id="detalhe-fimDeSemana"></span>
+                </span>
+              </label>
+
+              <label class="servico">
+                <input type="checkbox" data-servico="descontoPacote" />
+                <span class="servico__caixa" aria-hidden="true"></span>
+                <span class="servico__texto">
+                  <span class="servico__rotulo">Aplicar desconto de pacote</span>
+                  <span class="servico__detalhe" id="detalhe-descontoPacote"></span>
+                </span>
+              </label>
+            </div>
+          </section>
+
+          <section class="secao" aria-label="Configuração de preços">
+            <details class="configuracao">
+              <summary>Configurar preços dos serviços</summary>
+              <div class="configuracao__grade">
+                <div class="campo">
+                  <label for="cfg-desmontagem">Desmontagem (R$)</label>
+                  <div class="campo__entrada">
+                    <span class="campo__prefixo" aria-hidden="true">R$</span>
+                    <input id="cfg-desmontagem" data-config="desmontagem" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-cfg-desmontagem" />
+                  </div>
+                  <p class="campo__erro" id="erro-cfg-desmontagem" hidden></p>
+                </div>
+
+                <div class="campo">
+                  <label for="cfg-embalagem">Embalagem (R$)</label>
+                  <div class="campo__entrada">
+                    <span class="campo__prefixo" aria-hidden="true">R$</span>
+                    <input id="cfg-embalagem" data-config="embalagem" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-cfg-embalagem" />
+                  </div>
+                  <p class="campo__erro" id="erro-cfg-embalagem" hidden></p>
+                </div>
+
+                <div class="campo">
+                  <label for="cfg-montagem">Montagem (R$)</label>
+                  <div class="campo__entrada">
+                    <span class="campo__prefixo" aria-hidden="true">R$</span>
+                    <input id="cfg-montagem" data-config="montagem" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-cfg-montagem" />
+                  </div>
+                  <p class="campo__erro" id="erro-cfg-montagem" hidden></p>
+                </div>
+
+                <div class="campo">
+                  <label for="cfg-taxaFimDeSemana">Taxa de fim de semana</label>
+                  <div class="campo__entrada">
+                    <span class="campo__prefixo" aria-hidden="true">%</span>
+                    <input id="cfg-taxaFimDeSemana" data-config="taxaFimDeSemana" type="text" inputmode="decimal" autocomplete="off" placeholder="0" aria-describedby="erro-cfg-taxaFimDeSemana" />
+                  </div>
+                  <p class="campo__erro" id="erro-cfg-taxaFimDeSemana" hidden></p>
+                </div>
+              </div>
+
+              <h3 class="configuracao__subtitulo">Preço por cômodos</h3>
+              <div class="configuracao__grade">
+                <div class="campo">
+                  <label for="cfg-comodos1">1 cômodo (R$)</label>
+                  <div class="campo__entrada">
+                    <span class="campo__prefixo" aria-hidden="true">R$</span>
+                    <input id="cfg-comodos1" data-config="comodos1" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-cfg-comodos1" />
+                  </div>
+                  <p class="campo__erro" id="erro-cfg-comodos1" hidden></p>
+                </div>
+
+                <div class="campo">
+                  <label for="cfg-comodos2">2 cômodos (R$)</label>
+                  <div class="campo__entrada">
+                    <span class="campo__prefixo" aria-hidden="true">R$</span>
+                    <input id="cfg-comodos2" data-config="comodos2" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-cfg-comodos2" />
+                  </div>
+                  <p class="campo__erro" id="erro-cfg-comodos2" hidden></p>
+                </div>
+
+                <div class="campo">
+                  <label for="cfg-comodos3">3 cômodos (R$)</label>
+                  <div class="campo__entrada">
+                    <span class="campo__prefixo" aria-hidden="true">R$</span>
+                    <input id="cfg-comodos3" data-config="comodos3" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-cfg-comodos3" />
+                  </div>
+                  <p class="campo__erro" id="erro-cfg-comodos3" hidden></p>
+                </div>
+
+                <div class="campo">
+                  <label for="cfg-comodos4">4 cômodos (R$)</label>
+                  <div class="campo__entrada">
+                    <span class="campo__prefixo" aria-hidden="true">R$</span>
+                    <input id="cfg-comodos4" data-config="comodos4" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-cfg-comodos4" />
+                  </div>
+                  <p class="campo__erro" id="erro-cfg-comodos4" hidden></p>
+                </div>
+
+                <div class="campo">
+                  <label for="cfg-comodos5">5 ou mais cômodos (R$)</label>
+                  <div class="campo__entrada">
+                    <span class="campo__prefixo" aria-hidden="true">R$</span>
+                    <input id="cfg-comodos5" data-config="comodos5" type="text" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="erro-cfg-comodos5" />
+                  </div>
+                  <p class="campo__erro" id="erro-cfg-comodos5" hidden></p>
+                </div>
+              </div>
+            </details>
+          </section>
+        </div>
+
+        <aside class="coluna-lateral">
+          <section class="resumo" aria-labelledby="titulo-resumo" aria-live="polite">
+            <h2 id="titulo-resumo">Resumo do frete</h2>
+            <ul class="resumo__linhas" id="resumo-linhas"></ul>
+            <ul class="resumo__avisos" id="resumo-avisos" role="alert" hidden></ul>
+
+            <div class="resumo__total">
+              <span>Total final</span>
+              <strong id="total">R$ 0,00</strong>
+            </div>
+
+            <div class="resumo__acoes">
+              <button type="button" class="botao botao--primario" id="botao-copiar">Copiar resumo</button>
+              <button type="button" class="botao botao--secundario" id="botao-limpar">Limpar tudo</button>
+            </div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="js/calculo.js"></script>
+    <script src="js/formatacao.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

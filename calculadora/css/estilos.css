@@ -1,0 +1,560 @@
+/* Identidade visual: Calculadora de Frete para Móveis.
+   Para mudar as cores, altere apenas as variáveis abaixo. */
+:root {
+  /* Paleta da marca */
+  --cor-azul-marinho: #17324d;
+  --cor-azul: #2878b5;
+  --cor-azul-escuro: #1f6396; /* hover do azul */
+  --cor-azul-claro: #eaf3fa; /* fundo de itens selecionados */
+  --cor-laranja: #f59e0b;
+  --cor-laranja-texto: #b45309; /* laranja com contraste suficiente para texto */
+  --cor-cinza-claro: #f3f5f7;
+  --cor-branco: #ffffff;
+  --cor-cinza-escuro: #374151;
+  --cor-cinza-medio: #6b7280;
+  --cor-verde: #15803d;
+  --cor-vermelho: #b91c1c;
+  --cor-vermelho-claro: #fdecec;
+
+  /* Usos */
+  --fundo: var(--cor-cinza-claro);
+  --superficie: var(--cor-branco);
+  --borda: #dde3ea;
+  --titulo: var(--cor-azul-marinho);
+  --texto: var(--cor-cinza-escuro);
+  --texto-suave: var(--cor-cinza-medio);
+  --interativo: var(--cor-azul);
+  --interativo-hover: var(--cor-azul-escuro);
+  --interativo-suave: var(--cor-azul-claro);
+  --destaque: var(--cor-laranja);
+  --desconto: var(--cor-laranja-texto);
+  --total: var(--cor-verde);
+  --erro: var(--cor-vermelho);
+  --erro-suave: var(--cor-vermelho-claro);
+  --anel-foco: 0 0 0 3px rgba(40, 120, 181, 0.35);
+  --sombra: 0 1px 2px rgba(23, 50, 77, 0.06), 0 6px 20px rgba(23, 50, 77, 0.07);
+  --raio: 14px;
+  --raio-pequeno: 10px;
+
+  font-family: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--texto);
+  background: var(--fundo);
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: var(--titulo);
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Marcador laranja nos títulos das seções */
+h2::before {
+  content: '';
+  width: 4px;
+  height: 1.1em;
+  border-radius: 2px;
+  background: var(--destaque);
+}
+
+p {
+  margin: 0;
+}
+
+/* Cabeçalho */
+
+.cabecalho {
+  background: var(--cor-azul-marinho);
+  color: var(--cor-branco);
+}
+
+.cabecalho__conteudo {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cabecalho__icone {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--destaque);
+  display: grid;
+  place-items: center;
+}
+
+.cabecalho__icone svg {
+  width: 30px;
+  height: 30px;
+}
+
+.cabecalho h1 {
+  color: var(--cor-branco);
+}
+
+.cabecalho p {
+  color: #c9d6e3;
+  margin-top: 0.3rem;
+}
+
+/* Layout */
+
+.pagina {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.75rem 1rem 3rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.coluna-principal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.coluna-lateral {
+  position: sticky;
+  top: 1rem;
+}
+
+.secao,
+.resumo {
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 1.25rem;
+  box-shadow: var(--sombra);
+}
+
+.grade-campos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.grade-servicos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+/* Campos */
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.campo label {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--titulo);
+}
+
+.campo__entrada {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-pequeno);
+  background: var(--superficie);
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.campo__entrada:hover {
+  border-color: #c3ccd7;
+}
+
+.campo__entrada:focus-within {
+  border-color: var(--interativo);
+  box-shadow: var(--anel-foco);
+}
+
+.campo__prefixo {
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  background: var(--fundo);
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  border-right: 1px solid var(--borda);
+}
+
+.campo input,
+.campo select {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--texto);
+  font: inherit;
+  font-size: 1.05rem;
+  padding: 0.6rem 0.75rem;
+  outline: none;
+}
+
+.campo input {
+  text-align: right;
+}
+
+.campo select {
+  cursor: pointer;
+}
+
+.campo select option {
+  background: var(--superficie);
+  color: var(--texto);
+}
+
+.campo--largo {
+  grid-column: 1 / -1;
+}
+
+.campo--invalido .campo__entrada {
+  border-color: var(--erro);
+}
+
+.campo__dica,
+.campo__erro {
+  font-size: 0.82rem;
+}
+
+.campo__dica {
+  color: var(--texto-suave);
+}
+
+.campo__erro {
+  color: var(--erro);
+  font-weight: 500;
+}
+
+/* Serviços adicionais (checkboxes) */
+
+.servico {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  border: 1.5px solid var(--borda);
+  border-radius: 12px;
+  background: var(--superficie);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.servico:hover {
+  border-color: var(--interativo);
+}
+
+.servico--ativo {
+  border-color: var(--interativo);
+  background: var(--interativo-suave);
+}
+
+.servico input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.servico:has(input:focus-visible) {
+  box-shadow: var(--anel-foco);
+}
+
+.servico__caixa {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #b8c2cd;
+  border-radius: 7px;
+  background: var(--superficie);
+  position: relative;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.servico--ativo .servico__caixa {
+  background: var(--interativo);
+  border-color: var(--interativo);
+}
+
+.servico--ativo .servico__caixa::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 2px;
+  width: 6px;
+  height: 12px;
+  border: solid var(--cor-branco);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+.servico__texto {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.servico__rotulo {
+  font-weight: 600;
+  color: var(--titulo);
+}
+
+.servico__detalhe {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+.servico--ativo .servico__detalhe {
+  color: var(--interativo-hover);
+  font-weight: 500;
+}
+
+/* Configuração de preços */
+
+.configuracao summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--interativo);
+  border-radius: 6px;
+}
+
+.configuracao summary:hover {
+  color: var(--interativo-hover);
+}
+
+.configuracao summary:focus-visible {
+  outline: none;
+  box-shadow: var(--anel-foco);
+}
+
+.configuracao__subtitulo {
+  margin: 1.5rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.configuracao__grade {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Resumo */
+
+.resumo__linhas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.resumo__linha {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.95rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px dashed var(--borda);
+}
+
+.resumo__linha span:last-child {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--titulo);
+}
+
+.resumo__linha--base span:first-child {
+  font-weight: 600;
+  color: var(--titulo);
+}
+
+.resumo__linha--desconto span:last-child {
+  color: var(--desconto);
+}
+
+.resumo__avisos {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--raio-pequeno);
+  background: var(--erro-suave);
+  color: var(--erro);
+  font-size: 0.88rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* Painel do total final */
+.resumo__total {
+  margin-top: 1.25rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: 12px;
+  background: var(--total);
+  color: var(--cor-branco);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.resumo__total span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.resumo__total strong {
+  font-size: 2.1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.resumo__acoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+/* Botões */
+
+.botao {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--raio-pequeno);
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.botao:focus-visible {
+  outline: none;
+  box-shadow: var(--anel-foco);
+}
+
+.botao--primario {
+  background: var(--interativo);
+  color: var(--cor-branco);
+}
+
+.botao--primario:hover {
+  background: var(--interativo-hover);
+}
+
+.botao--secundario {
+  background: var(--superficie);
+  color: var(--texto);
+  border-color: var(--borda);
+}
+
+.botao--secundario:hover {
+  color: var(--titulo);
+  border-color: var(--titulo);
+}
+
+/* Telas menores */
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .coluna-lateral {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .cabecalho__conteudo {
+    padding: 1.1rem 1rem;
+    gap: 0.8rem;
+  }
+
+  .cabecalho__icone {
+    width: 44px;
+    height: 44px;
+  }
+
+  .cabecalho__icone svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .pagina {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  h1 {
+    font-size: 1.35rem;
+  }
+
+  .grade-campos,
+  .grade-servicos,
+  .configuracao__grade,
+  .resumo__acoes {
+    grid-template-columns: 1fr;
+  }
+
+  .resumo__total strong {
+    font-size: 1.8rem;
+  }
+}
