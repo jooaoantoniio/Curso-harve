@@ -166,6 +166,15 @@
               </label>
 
               <label class="servico">
+                <input type="checkbox" data-servico="cidadeVizinha" />
+                <span class="servico__caixa" aria-hidden="true"></span>
+                <span class="servico__texto">
+                  <span class="servico__rotulo">Taxa extra (cidade vizinha)</span>
+                  <span class="servico__detalhe" id="detalhe-cidadeVizinha"></span>
+                </span>
+              </label>
+
+              <label class="servico">
                 <input type="checkbox" data-servico="fimDeSemana" />
                 <span class="servico__caixa" aria-hidden="true"></span>
                 <span class="servico__texto">
@@ -234,6 +243,15 @@
                     <input id="cfg-taxaFimDeSemana" data-config="taxaFimDeSemana" type="text" inputmode="decimal" autocomplete="off" placeholder="0" aria-describedby="erro-cfg-taxaFimDeSemana" />
                   </div>
                   <p class="campo__erro" id="erro-cfg-taxaFimDeSemana" hidden></p>
+                </div>
+
+                <div class="campo">
+                  <label for="cfg-taxaCidadeVizinha">Taxa de cidade vizinha</label>
+                  <div class="campo__entrada">
+                    <span class="campo__prefixo" aria-hidden="true">%</span>
+                    <input id="cfg-taxaCidadeVizinha" data-config="taxaCidadeVizinha" type="text" inputmode="decimal" autocomplete="off" placeholder="0" aria-describedby="erro-cfg-taxaCidadeVizinha" />
+                  </div>
+                  <p class="campo__erro" id="erro-cfg-taxaCidadeVizinha" hidden></p>
                 </div>
 
                 <div class="campo">

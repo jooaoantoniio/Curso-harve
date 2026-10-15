@@ -8,6 +8,7 @@ const SEM_SERVICOS = {
   desmontagem: false,
   embalagem: false,
   montagem: false,
+  cidadeVizinha: false,
   fimDeSemana: false,
   descontoPacote: false,
 };
@@ -169,6 +170,38 @@ describe('cômodos', () => {
   it('usa preços de cômodos configuráveis', () => {
     const precos = { ...PRECOS_PADRAO, comodos: [500, 800, 1000, 1400, 1800] };
     assert.equal(calcularFrete(entradas({ comodos: 2 }), precos).total, 800);
+  });
+});
+
+describe('taxa extra (cidade vizinha)', () => {
+  it('cobra 40% sobre o valor-base somente quando marcada', () => {
+    assert.equal(calcularFrete(entradas({ valorBase: 200 }), PRECOS_PADRAO).total, 200);
+    assert.equal(calcularFrete(entradas({ valorBase: 200 }, { cidadeVizinha: true }), PRECOS_PADRAO).total, 280);
+  });
+
+  it('não incide sobre cômodos, distância nem serviços', () => {
+    // 100 + 2 cômodos (700) + 10 km (50) + montagem (60) + 40% de 100 (40) = 950
+    const r = calcularFrete(
+      entradas({ valorBase: 100, comodos: 2, distanciaKm: 10 }, { montagem: true, cidadeVizinha: true }),
+      PRECOS_PADRAO,
+    );
+    assert.equal(r.total, 950);
+  });
+
+  it('entra no subtotal e recebe a taxa de fim de semana', () => {
+    // 100 + 40 = 140; taxa 15% = 21; total = 161
+    const r = calcularFrete(entradas({ valorBase: 100 }, { cidadeVizinha: true, fimDeSemana: true }), PRECOS_PADRAO);
+    assert.equal(r.subtotal, 140);
+    assert.equal(r.total, 161);
+  });
+
+  it('mostra o percentual no resumo e usa a taxa configurável', () => {
+    const precos = { ...PRECOS_PADRAO, taxaCidadeVizinha: 0.25 };
+    const linha = calcularFrete(entradas({ valorBase: 200 }, { cidadeVizinha: true }), precos).linhas.find(
+      (l) => l.id === 'cidadeVizinha',
+    );
+    assert.equal(linha.rotulo, 'Taxa extra – cidade vizinha (25%)');
+    assert.equal(linha.valor, 50);
   });
 });
 

@@ -67,6 +67,8 @@
     document.getElementById('detalhe-desmontagem').textContent = '+ ' + formatarBRL(precos.desmontagem);
     document.getElementById('detalhe-embalagem').textContent = '+ ' + formatarBRL(precos.embalagem);
     document.getElementById('detalhe-montagem').textContent = '+ ' + formatarBRL(precos.montagem);
+    document.getElementById('detalhe-cidadeVizinha').textContent =
+      '+ ' + formatarPercentual(precos.taxaCidadeVizinha) + ' sobre o valor-base';
     document.getElementById('detalhe-fimDeSemana').textContent =
       '+ ' + formatarPercentual(precos.taxaFimDeSemana) + ' sobre o subtotal';
     document.getElementById('detalhe-descontoPacote').textContent =
@@ -125,6 +127,7 @@
       embalagem: config.valores.embalagem,
       montagem: config.valores.montagem,
       taxaFimDeSemana: config.valores.taxaFimDeSemana / 100, // digitado em %
+      taxaCidadeVizinha: config.valores.taxaCidadeVizinha / 100, // digitado em %
       precoPorKm: config.valores.precoPorKm,
       comodos: [
         config.valores.comodos1,
@@ -176,6 +179,7 @@
     document.getElementById('cfg-embalagem').value = paraTexto(PRECOS_PADRAO.embalagem);
     document.getElementById('cfg-montagem').value = paraTexto(PRECOS_PADRAO.montagem);
     document.getElementById('cfg-taxaFimDeSemana').value = paraTexto(PRECOS_PADRAO.taxaFimDeSemana * 100);
+    document.getElementById('cfg-taxaCidadeVizinha').value = paraTexto(PRECOS_PADRAO.taxaCidadeVizinha * 100);
     document.getElementById('cfg-precoPorKm').value = paraTexto(PRECOS_PADRAO.precoPorKm);
     PRECOS_PADRAO.comodos.forEach(function (preco, indice) {
       document.getElementById('cfg-comodos' + (indice + 1)).value = paraTexto(preco);

@@ -7,6 +7,7 @@ const PRECOS_PADRAO = {
   embalagem: 30,
   montagem: 60,
   taxaFimDeSemana: 0.15, // fração decimal: 0.15 = 15%
+  taxaCidadeVizinha: 0.4, // fração decimal sobre o valor-base: 0.4 = 40%
   precoPorKm: 5, // valor cobrado a cada 1 km de distância
   // Preço por quantidade de cômodos: posição 0 = 1 cômodo, ..., última = "5 ou mais".
   comodos: [450, 700, 980, 1300, 1650],
@@ -39,8 +40,8 @@ function formatarKm(km) {
 /**
  * entradas: { valorBase, comodos, distanciaKm, valorDescontoPacote, servicos }
  *           comodos é a quantidade de cômodos (0 = nenhum)
- * servicos: { desmontagem, embalagem, montagem, fimDeSemana, descontoPacote } (booleanos)
- * precos:   { desmontagem, embalagem, montagem, taxaFimDeSemana, precoPorKm, comodos }
+ * servicos: { desmontagem, embalagem, montagem, cidadeVizinha, fimDeSemana, descontoPacote } (booleanos)
+ * precos:   { desmontagem, embalagem, montagem, taxaFimDeSemana, taxaCidadeVizinha, precoPorKm, comodos }
  */
 function calcularFrete(entradas, precos) {
   const servicos = entradas.servicos;
@@ -52,9 +53,13 @@ function calcularFrete(entradas, precos) {
   const desmontagem = servicos.desmontagem ? precos.desmontagem : 0;
   const embalagem = servicos.embalagem ? precos.embalagem : 0;
   const montagem = servicos.montagem ? precos.montagem : 0;
+  // A taxa de cidade vizinha incide só sobre o valor-base.
+  const cidadeVizinha = servicos.cidadeVizinha
+    ? arredondar(entradas.valorBase * precos.taxaCidadeVizinha)
+    : 0;
 
   const subtotal = arredondar(
-    entradas.valorBase + comodos + distancia + desmontagem + embalagem + montagem,
+    entradas.valorBase + comodos + distancia + desmontagem + embalagem + montagem + cidadeVizinha,
   );
 
   const taxaFimDeSemana = servicos.fimDeSemana ? arredondar(subtotal * precos.taxaFimDeSemana) : 0;
@@ -85,6 +90,12 @@ function calcularFrete(entradas, precos) {
     { id: 'desmontagem', rotulo: 'Desmontagem', valor: desmontagem, tipo: 'acrescimo' },
     { id: 'embalagem', rotulo: 'Embalagem', valor: embalagem, tipo: 'acrescimo' },
     { id: 'montagem', rotulo: 'Montagem', valor: montagem, tipo: 'acrescimo' },
+    {
+      id: 'cidadeVizinha',
+      rotulo: 'Taxa extra – cidade vizinha (' + formatarPercentual(precos.taxaCidadeVizinha) + ')',
+      valor: cidadeVizinha,
+      tipo: 'acrescimo',
+    },
     {
       id: 'fimDeSemana',
       rotulo: 'Taxa de fim de semana (' + formatarPercentual(precos.taxaFimDeSemana) + ')',
