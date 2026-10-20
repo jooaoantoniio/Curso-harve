@@ -1,0 +1,9 @@
+{
+  "desmontagem": 20,
+  "embalagem": 30,
+  "montagem": 60,
+  "taxaFimDeSemana": 0.15,
+  "taxaCidadeVizinha": 0.4,
+  "precoPorKm": 5,
+  "comodos": [450, 700, 980, 1300, 1650]
+}

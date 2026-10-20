@@ -1,7 +1,10 @@
 // Execute com: node --test testes/*.test.js
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const { PRECOS_PADRAO, calcularFrete, precoComodos } = require('../js/calculo.js');
+const { readFileSync } = require('node:fs');
+const { join } = require('node:path');
+const { calcularFrete, precoComodos } = require('../js/calculo.js');
+const PRECOS_PADRAO = JSON.parse(readFileSync(join(__dirname, '../valores.json'), 'utf8'));
 const { formatarBRL, lerValorBRL, gerarTextoResumo } = require('../js/formatacao.js');
 
 const SEM_SERVICOS = {

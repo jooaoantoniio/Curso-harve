@@ -1,17 +1,7 @@
 // Lógica do frete, sem dependência da interface.
 
-// Preços padrão dos serviços. Podem ser alterados aqui ou pela área
-// "Configurar preços dos serviços" da própria página.
-const PRECOS_PADRAO = {
-  desmontagem: 20,
-  embalagem: 30,
-  montagem: 60,
-  taxaFimDeSemana: 0.15, // fração decimal: 0.15 = 15%
-  taxaCidadeVizinha: 0.4, // fração decimal sobre o valor-base: 0.4 = 40%
-  precoPorKm: 5, // valor cobrado a cada 1 km de distância
-  // Preço por quantidade de cômodos: posição 0 = 1 cômodo, ..., última = "5 ou mais".
-  comodos: [450, 700, 980, 1300, 1650],
-};
+// Os preços padrão ficam em valores.json (carregado pelo orcamento.js com fetch).
+// Podem ser alterados lá ou pela área "Configurar preços dos serviços" da página.
 
 // Preço da faixa de cômodos. Acima da última faixa, vale o preço da última.
 function precoComodos(quantidade, tabela) {
@@ -118,7 +108,6 @@ function calcularFrete(entradas, precos) {
 // Permite usar este arquivo nos testes com Node.
 if (typeof module === 'object' && module.exports) {
   module.exports = {
-    PRECOS_PADRAO,
     arredondar,
     formatarPercentual,
     formatarKm,

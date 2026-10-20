@@ -174,6 +174,9 @@
     return String(arredondar(numero)).replace('.', ',');
   }
 
+  // Preços padrão, carregados de valores.json.
+  let PRECOS_PADRAO;
+
   function preencherConfigPadrao() {
     document.getElementById('cfg-desmontagem').value = paraTexto(PRECOS_PADRAO.desmontagem);
     document.getElementById('cfg-embalagem').value = paraTexto(PRECOS_PADRAO.embalagem);
@@ -251,6 +254,18 @@
     });
   });
 
-  preencherConfigPadrao();
-  atualizar();
+  fetch('valores.json')
+    .then(function (resposta) {
+      if (!resposta.ok) throw new Error('HTTP ' + resposta.status);
+      return resposta.json();
+    })
+    .then(function (valores) {
+      PRECOS_PADRAO = valores;
+      preencherConfigPadrao();
+      atualizar();
+    })
+    .catch(function () {
+      listaAvisos.textContent = 'Não foi possível carregar valores.json. Abra a página por um servidor local (não por file://).';
+      listaAvisos.hidden = false;
+    });
 })();

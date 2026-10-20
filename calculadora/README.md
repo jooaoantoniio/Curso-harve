@@ -22,5 +22,5 @@ node --test testes/*.test.js
 - `css/estilos.css`: estilos e layout responsivo.
 - `js/calculo.js`: preços padrão (`PRECOS_PADRAO`) e a fórmula do frete.
 - `js/formatacao.js`: leitura de valores em BRL, formatação e texto do resumo.
-- `js/app.js`: liga a interface ao cálculo.
+- `js/orcamento.js`: liga a interface ao cálculo.
 - `testes/calculo.test.js`: testes da lógica.
