@@ -236,6 +236,11 @@
   document.querySelector('[data-servico="descontoPacote"]').addEventListener('change', function (evento) {
     if (evento.target.checked) inputDesconto.focus();
   });
+  // Abre o WhatsApp com a mensagem preenchida; o envio é confirmado pelo usuário lá.
+  document.getElementById('botao-whatsapp').addEventListener('click', function () {
+    if (!ultimoResultado) return;
+    window.open(gerarLinkWhatsApp(ultimoResultado), '_blank', 'noopener');
+  });
   botaoCopiar.addEventListener('click', copiarResumo);
   botaoLimpar.addEventListener('click', limpar);
 

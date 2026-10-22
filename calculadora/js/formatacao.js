@@ -47,6 +47,53 @@ function gerarTextoResumo(resultado) {
   ].join('\n');
 }
 
+const WHATSAPP_URL = 'https://wa.me/5549991568404';
+
+// Mensagem do orçamento para o WhatsApp. Campos sem valor ficam de fora.
+function gerarMensagemWhatsApp(resultado) {
+  const porId = {};
+  resultado.linhas.forEach(function (linha) {
+    porId[linha.id] = linha;
+  });
+
+  const detalhes = ['- Serviço: Frete de móveis'];
+  if (porId.base.valor > 0) detalhes.push('- Valor-base: ' + formatarBRL(porId.base.valor));
+  if (porId.comodos.valor > 0) {
+    detalhes.push('- ' + porId.comodos.rotulo + ': ' + formatarBRL(porId.comodos.valor));
+  }
+  detalhes.push('- Valor calculado: ' + formatarBRL(resultado.total));
+  if (porId.distancia.valor > 0) {
+    detalhes.push('- ' + porId.distancia.rotulo + ': ' + formatarBRL(porId.distancia.valor));
+  }
+
+  const extras = ['desmontagem', 'embalagem', 'montagem', 'cidadeVizinha', 'fimDeSemana']
+    .map(function (id) {
+      return porId[id];
+    })
+    .filter(function (linha) {
+      return linha.valor > 0;
+    })
+    .map(function (linha) {
+      return linha.rotulo + ' (' + formatarBRL(linha.valor) + ')';
+    });
+  if (extras.length > 0) detalhes.push('- Extras: ' + extras.join(', '));
+
+  if (porId.desconto.valor > 0) detalhes.push('- Desconto: − ' + formatarBRL(porId.desconto.valor));
+
+  return [
+    'Olá! Gostaria de solicitar um orçamento.',
+    '',
+    '*Dados do orçamento:*',
+    ...detalhes,
+    '',
+    'Poderiam confirmar o orçamento, por favor?',
+  ].join('\n');
+}
+
+function gerarLinkWhatsApp(resultado) {
+  return WHATSAPP_URL + '?text=' + encodeURIComponent(gerarMensagemWhatsApp(resultado));
+}
+
 if (typeof module === 'object' && module.exports) {
-  module.exports = { formatarBRL, lerValorBRL, gerarTextoResumo };
+  module.exports = { formatarBRL, lerValorBRL, gerarTextoResumo, gerarMensagemWhatsApp, gerarLinkWhatsApp };
 }

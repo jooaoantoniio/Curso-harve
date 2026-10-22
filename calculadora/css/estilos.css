@@ -670,6 +670,28 @@ p {
   border-color: var(--titulo);
 }
 
+/* "Copiar resumo" segue o azul-marinho do cabeçalho */
+.resumo__acoes .botao--primario {
+  background: var(--interativo);
+  color: var(--cor-branco);
+}
+
+.resumo__acoes .botao--primario:hover {
+  background: var(--interativo-hover);
+}
+
+/* Verde oficial do WhatsApp; texto azul-marinho mantém o contraste */
+.botao--whatsapp {
+  width: 100%;
+  margin-top: 0.6rem;
+  background: #25d366;
+  color: var(--cor-azul-marinho);
+}
+
+.botao--whatsapp:hover {
+  background: #1ebe5b;
+}
+
 /* Telas menores */
 
 @media (max-width: 900px) {
